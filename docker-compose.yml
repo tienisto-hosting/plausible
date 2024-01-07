@@ -1,8 +1,8 @@
 version: "3.3"
 services:
-  mail:
-    image: bytemark/smtp
-    restart: always
+#  mail:
+#    image: bytemark/smtp
+#    restart: always
 
   plausible_db:
     # supported versions are 12, 13, and 14
@@ -32,9 +32,11 @@ services:
     depends_on:
       - plausible_db
       - plausible_events_db
-      - mail
-    ports:
-      - 8000:8000
+#      - mail
+#    ports:
+#      - 8000:8000
+    expose:
+      - 8000
     env_file:
       - plausible-conf.env
 
@@ -43,3 +45,12 @@ volumes:
     driver: local
   event-data:
     driver: local
+
+networks:
+  default:
+    name: "ip6net"
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:0DB8::/112
+    external: true
